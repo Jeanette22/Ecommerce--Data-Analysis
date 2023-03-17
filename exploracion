@@ -1,0 +1,106 @@
+datos_a.show(3)
++---------+---------+--------------------+--------+--------------+---------+----------+--------------+
+|InvoiceNo|StockCode|         Description|Quantity|   InvoiceDate|UnitPrice|CustomerID|       Country|
++---------+---------+--------------------+--------+--------------+---------+----------+--------------+
+|   536365|   85123A|WHITE HANGING HEA...|       6|12/1/2010 8:26|     2.55|     17850|United Kingdom|
+|   536365|    71053| WHITE METAL LANTERN|       6|12/1/2010 8:26|     3.39|     17850|United Kingdom|
+|   536365|   84406B|CREAM CUPID HEART...|       8|12/1/2010 8:26|     2.75|     17850|United Kingdom|
++---------+---------+--------------------+--------+--------------+---------+----------+--------------+
+only showing top 3 rows
+
+>>> datos_b=spark.sql("DESCRIBE tabla_datos").show()
++-----------+---------+-------+
+|   col_name|data_type|comment|
++-----------+---------+-------+
+|  InvoiceNo|   string|   null|
+|  StockCode|   string|   null|
+|Description|   string|   null|
+|   Quantity|   string|   null|
+|InvoiceDate|   string|   null|
+|  UnitPrice|   string|   null|
+| CustomerID|   string|   null|
+|    Country|   string|   null|
++-----------+---------+-------+
+
+>> from pyspark.sql.functions import col
+>>> datos_a = datos_a.select(col("InvoiceNo"), col("StockCode"), col("Description"), col("Quantity").cast("integer"), col("InvoiceDate"), col("UnitPrice"), col("CustomerID").cast("integer"), col("Country"))
+>>> datos_a.printSchema()
+root
+ |-- InvoiceNo: string (nullable = true)
+ |-- StockCode: string (nullable = true)
+ |-- Description: string (nullable = true)
+ |-- Quantity: integer (nullable = true)
+ |-- InvoiceDate: string (nullable = true)
+ |-- UnitPrice: string (nullable = true)
+ |-- CustomerID: integer (nullable = true)
+ |-- Country: string (nullable = true)
+
+>>> unique_invoices = spark.sql("SELECT COUNT(DISTINCT InvoiceNo) as unique_invoices FROM tabla_datos").collect()[0]["unique_invoices"]
+>>> print("Número de facturas únicas: ", unique_invoices)
+Número de facturas únicas:  25900
+>>> total_quantity = spark.sql("SELECT SUM(Quantity) as total_quantity FROM tabla_datos").collect()[0]["total_quantity"]
+>>> print("Cantidad total de productos vendidos: ", total_quantity)
+Cantidad total de productos vendidos:  5176450.0
+>>> quantity_by_country = spark.sql("SELECT Country, SUM(Quantity) as total_quantity FROM tabla_datos GROUP BY Country ORDER BY total_quantity DESC")
+>>> quantity_by_country.show()
++---------------+--------------+
+|        Country|total_quantity|
++---------------+--------------+
+| United Kingdom|     4263829.0|
+|    Netherlands|      200128.0|
+|           EIRE|      142637.0|
+|        Germany|      117448.0|
+|         France|      110480.0|
+|      Australia|       83653.0|
+|         Sweden|       35637.0|
+|    Switzerland|       30325.0|
+|          Spain|       26824.0|
+|          Japan|       25218.0|
+|        Belgium|       23152.0|
+|         Norway|       19247.0|
+|       Portugal|       16180.0|
+|        Finland|       10666.0|
+|Channel Islands|        9479.0|
+|        Denmark|        8188.0|
+|          Italy|        7999.0|
+|         Cyprus|        6317.0|
+|      Singapore|        5234.0|
+|        Austria|        4827.0|
++---------------+--------------+
+only showing top 20 rows
+
+>>> avg_unit_price = spark.sql("SELECT AVG(UnitPrice) as avg_unit_price FROM tabla_datos").collect()[0]["avg_unit_price"]
+>>> print("Promedio de precios unitarios de los productos: ", avg_unit_price)
+Promedio de precios unitarios de los productos:  4.611113626082972
+>>> invoices_by_day = spark.sql("SELECT DAYOFMONTH(InvoiceDate) as day, COUNT(*) as num_invoices FROM tabla_datos GROUP BY DAYOFMONTH(InvoiceDate) ORDER BY day")
+>>> invoices_by_day.show()
++----+------------+
+| day|num_invoices|
++----+------------+
+|null|      541909|
++----+------------+
+
+
+>> spark.sql("SELECT count(DISTINCT CustomerID) as unique_customers FROM tabla_datos").show()
++----------------+
+|unique_customers|
++----------------+
+|            4372|
+
+
+
+>> spark.sql("SELECT Description, sum(Quantity) as total_quantity FROM tabla_datos GROUP BY Description ORDER BY total_quantity DESC LIMIT 10").show(truncate=False)
++----------------------------------+--------------+
+|Description                       |total_quantity|
++----------------------------------+--------------+
+|WORLD WAR 2 GLIDERS ASSTD DESIGNS |53847.0       |
+|JUMBO BAG RED RETROSPOT           |47363.0       |
+|ASSORTED COLOUR BIRD ORNAMENT     |36381.0       |
+|POPCORN HOLDER                    |36334.0       |
+|PACK OF 72 RETROSPOT CAKE CASES   |36039.0       |
+|WHITE HANGING HEART T-LIGHT HOLDER|35317.0       |
+|RABBIT NIGHT LIGHT                |30680.0       |
+|MINI PAINT SET VINTAGE            |26437.0       |
+|PACK OF 12 LONDON TISSUES         |26315.0       |
+|PACK OF 60 PINK PAISLEY CAKE CASES|24753.0       |
++----------------------------------+--------------+
