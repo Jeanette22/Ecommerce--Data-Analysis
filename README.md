@@ -19,48 +19,48 @@ También se pueden utilizar otras funciones de Pyspark como "lit", "concat", "su
 
 *para hacer consultas con datos numéricos, se suele recomendar cambiarles el tipo de dato en caso de que esten en “string”*
 
-Total de facturas únicas: 25900
+#### Total de facturas únicas: 25900
 
 ![4](https://user-images.githubusercontent.com/80054717/225991754-df912fa9-2d45-4274-b47a-4de418f56496.png)
 
 
-La cantidad total de productos vendidos: 5.176.450.0
+#### La cantidad total de productos vendidos: 5.176.450.0
 ![5](https://user-images.githubusercontent.com/80054717/225991805-3c58254a-2b97-43be-881a-ac13c2aa19e4.png)
 
 
-Cantidad de productos vendidos por país:
+#### Cantidad de productos vendidos por país:
 ![6](https://user-images.githubusercontent.com/80054717/225991830-dd9e39b3-8199-43c8-a6e9-a3ff1500e3bd.png)
 
 
-Obtener el promedio de precios unitarios de los productos: 4.611113626082972
+#### Obtener el promedio de precios unitarios de los productos: 4.611113626082972
 ![7](https://user-images.githubusercontent.com/80054717/225991857-905d4fee-74ab-4be1-becf-44c56af22c4a.png)
 
 
-la cantidad de facturas por día: 541.909
+#### la cantidad de facturas por día: 541.909
 ![8](https://user-images.githubusercontent.com/80054717/225991886-da31d94f-f7d7-420a-ad40-d16e124ee8c9.png)
 
 
-Número total de transacciones en el dataset:
+#### Número total de transacciones en el dataset:
 ![9](https://user-images.githubusercontent.com/80054717/225991920-1f668896-9cb7-47f5-9ed0-7f64655efe3a.png)
 
 
-Número de clientes únicos:
+#### Número de clientes únicos:
 ![10](https://user-images.githubusercontent.com/80054717/225991944-8b5d1f95-316c-4916-b5e8-877eb4d0f59b.png)
 
 
-Productos más vendidos:
+#### Productos más vendidos:
 ![11](https://user-images.githubusercontent.com/80054717/225991962-2b76aa2e-2ea8-4754-99a4-467740614079.png)
 
 
-Transacciones realizadas en un país en particular: Francia
+#### Transacciones realizadas en un país en particular: Francia
 ![12](https://user-images.githubusercontent.com/80054717/225991984-eb88945f-4d92-4226-8865-22f6868511bc.png)
 
 
-Análisis de ventas por mes: 9747747.93
+#### Análisis de ventas por mes: 9747747.93
 ![13](https://user-images.githubusercontent.com/80054717/225992032-2e021248-1f25-4265-9ee7-faf3360236d1.png)
 
 
-Obtener la lista de los 10 clientes que más gastaron: ID
+#### Obtener la lista de los 10 clientes que más gastaron: ID
 ![14](https://user-images.githubusercontent.com/80054717/225992058-d0413e46-056f-40e7-9234-eb7def6b5cd4.png)
 
 
